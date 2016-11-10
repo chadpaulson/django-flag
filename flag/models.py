@@ -4,7 +4,7 @@ from django.conf import settings
 from django.db import models
 
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes import fields
 from django.utils.translation import ugettext_lazy as _
 
 from flag import signals
@@ -23,7 +23,7 @@ class FlaggedContent(models.Model):
 
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
-    content_object = generic.GenericForeignKey("content_type", "object_id")
+    content_object = fields.GenericForeignKey("content_type", "object_id")
     # user who created flagged content -- this is kept in model so it outlives content
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="flagged_content")
     status = models.CharField(max_length=1, choices=STATUS, default="1")
